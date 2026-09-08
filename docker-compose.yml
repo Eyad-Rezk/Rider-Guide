@@ -1,0 +1,58 @@
+services:
+
+  frontend:
+    build:
+      context: ./frontend/vite-project
+    container_name: bike-frontend
+    networks:
+      NET-B:
+       ipv4_address: 11.0.0.2
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    container_name: bike-backend
+    networks:
+       NET-B:
+        ipv4_address: 11.0.0.3
+       NET-A:
+        ipv4_address: 10.0.0.3
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/bikes
+      PORT: 3000
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:8
+    container_name: bike-mongodb
+    networks:
+      NET-A:
+       ipv4_address: 10.0.0.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
+
+networks:
+  NET-A:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+          gateway: 10.0.0.1
+  NET-B:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 11.0.0.0/24
+          gateway: 11.0.0.1
