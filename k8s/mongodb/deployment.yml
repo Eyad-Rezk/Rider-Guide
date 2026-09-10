@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deploy
+  namespace: rider-guide
+  labels:
+    app: mongodb
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb-cont
+        image: mongo:latest 
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+         - mountPath: "/data/db"
+           name: mongo-volume
+      volumes:
+       - name: mongo-volume
+         persistentVolumeClaim:
+            claimName: mongo-pvc
+

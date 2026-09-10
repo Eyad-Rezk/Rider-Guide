@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deploy
+  namespace: rider-guide
+  labels:
+    app: backend
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-cont
+        image: eyadrezk/bike-backend:latest
+        ports:
+        - containerPort: 3000
+      env:
+       - name: MONGO_URI
+         value: "mongodb://mongodb-svc:27017/bikes"
