@@ -1,15 +1,22 @@
-// import mongoose from 'mongoose';
-
-// mongoose.connect('')
-//   .then(() => console.log('Connected!'))
-//   .catch(err => console.error('Connection error', err));
-
-
 import mongoose from "mongoose";
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/bikes";
+const MONGO_URI = process.env.MONGO_URI;
 
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log("Connected!"))
-  .catch((err) => console.error("Connection error", err));
+if (!MONGO_URI) {
+  throw new Error("MONGO_URI is not defined in the environment variables.");
+}
+
+const connectDB = async () => {
+  while (true) {
+    try {
+      await mongoose.connect(MONGO_URI);
+      console.log("Connected!");
+      break;
+    } catch (err) {
+      console.error("Connection error. Retrying in 5 seconds...");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+  }
+};
+
+connectDB();

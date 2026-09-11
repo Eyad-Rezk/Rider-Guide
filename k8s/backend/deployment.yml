@@ -21,6 +21,6 @@ spec:
         image: eyadrezk/bike-backend:latest
         ports:
         - containerPort: 3000
-      env:
-       - name: MONGO_URI
-         value: "mongodb://mongodb-svc:27017/bikes"
+        env:
+         - name: MONGO_URI
+           value: "mongodb://mongodb-svc:27017/bikes"
