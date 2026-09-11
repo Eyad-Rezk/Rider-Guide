@@ -1,6 +1,6 @@
 import type { Bike, BikeInput } from "../types/bike";
 
-const API_URL = "http://localhost:3000/bikes";
+const API_URL = "/api/bikes";
 
 export const getAllBikes = async (): Promise<Bike[]> => {
   const response = await fetch(API_URL);
