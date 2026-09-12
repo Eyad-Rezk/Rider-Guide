@@ -10,10 +10,17 @@ spec:
   - host: rider-guide.com
     http:
       paths:
-      - path: /bikes
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: frontend-svc
             port:
               number: 80     # service port
+      - path: /bikes
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-svc
+            port:
+              number: 3000     # service port
