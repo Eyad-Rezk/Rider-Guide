@@ -2,17 +2,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-nginx
+  name: rider-guide-ingress
+  namespace: rider-guide
 spec:
   ingressClassName: nginx
   rules:
   - host: rider-guide.com
     http:
       paths:
-      - path: /
+      - path: /bikes
         pathType: Prefix
         backend:
           service:
-            name: backend-svc
+            name: frontend-svc
             port:
-              number: 3000     # service port
+              number: 80     # service port
